@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>wockkk的小窝</title>
+    <link href="https://fonts.googleapis.cn/css2?family=ZCOOL+KuaiLe&family=Caveat:wght@600&display=swap" rel="stylesheet">
     <style>
         /* 全局设置：极简字体与柔和背景色 */
         :root {
-            --bg-color: #f4f6f8;       /* 整个页面的背景色 */
-            --text-main: #333333;      /* 主要文字颜色 */
-            --text-muted: #666666;     /* 次要文字颜色 */
+            --bg-color: #fffafa;       /* 极浅的草莓牛奶色背景 */
+            --text-main: #4a4a4a;      /* 柔和的深灰 */
+            --text-muted: #777777;     /* 浅灰文字 */
             --card-radius: 16px;       /* 色块圆角 */
             --gap-size: 20px;          /* 色块间距 */
         }
@@ -21,10 +22,10 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: 'ZCOOL KuaiLe', 'Caveat', 'Comic Sans MS', 'PingFang SC', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.8;
             padding: 40px 20px;
             display: flex;
             justify-content: center;
@@ -43,18 +44,18 @@
             border-radius: var(--card-radius);
             padding: 30px;
             margin-bottom: var(--gap-size);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); /* 极浅的阴影，增加立体感 */
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1); /* 淡淡的粉色阴影 */
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .block:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 16px rgba(255, 182, 193, 0.2);
         }
 
-        /* 头部色块（偏蓝调） */
+        /* 头部色块（柔雾粉） */
         .header-block {
-            background-color: #eef2ff;
+            background-color: #ffe4e1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -62,29 +63,29 @@
             padding: 40px 30px;
         }
 
-        /* 头像（可选，不需要可以删除 img 标签） */
         .avatar {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: #c7d2fe; /* 头像占位色 */
+            background-color: #c7d2fe;
             margin-bottom: 20px;
             object-fit: cover;
         }
 
         .header-block h1 {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: #1e3a8a;
+            color: #d84b5e; /* 草莓红 */
+            letter-spacing: 2px;
         }
 
         .header-block p {
-            font-size: 14px;
-            color: #4f46e5;
+            font-size: 15px;
+            color: #e07a8b;
         }
 
-        /* 网格布局：让下方的色块在电脑上分两列，手机上自动变成一列 */
+        /* 网格布局 */
         .grid-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -93,19 +94,19 @@
 
         @media (max-width: 600px) {
             .grid-layout {
-                grid-template-columns: 1fr; /* 手机端一列显示 */
+                grid-template-columns: 1fr;
             }
         }
 
-        /* 各具不同背景色的色块 */
-        .about-block { background-color: #f0fdf4; } /* 淡绿 */
-        .skills-block { background-color: #fef2f2; } /* 淡红 */
-        .project-block { background-color: #fefce8; } /* 淡黄 */
-        .contact-block { background-color: #f8fafc; } /* 淡灰 */
+        /* 马卡龙配色色块 */
+        .about-block { background-color: #e0f7fa; } /* 薄荷绿 */
+        .skills-block { background-color: #fce4ec; } /* 樱花粉 */
+        .project-block { background-color: #fff9c4; } /* 奶黄 */
+        .contact-block { background-color: #e6e6fa; } /* 香芋紫 */
 
         /* 标题样式 */
         .block h2 {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 600;
             margin-bottom: 15px;
             display: flex;
@@ -113,10 +114,10 @@
             gap: 8px;
         }
 
-        .about-block h2 { color: #166534; }
-        .skills-block h2 { color: #991b1b; }
-        .project-block h2 { color: #854d0e; }
-        .contact-block h2 { color: #334155; }
+        .about-block h2 { color: #00838f; }
+        .skills-block h2 { color: #c2185b; }
+        .project-block h2 { color: #f57f17; }
+        .contact-block h2 { color: #6a1b9a; }
 
         /* 文本内容 */
         .block p {
@@ -137,7 +138,7 @@
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 13px;
-            color: #991b1b;
+            color: #c2185b;
             font-weight: 500;
         }
 
@@ -150,7 +151,7 @@
 
         .link-list a {
             text-decoration: none;
-            color: #4f46e5;
+            color: #ff6b81;
             font-size: 14px;
             font-weight: 500;
             display: flex;
@@ -160,6 +161,7 @@
 
         .link-list a:hover {
             text-decoration: underline;
+            color: #d84b5e;
         }
     </style>
 </head>
@@ -170,7 +172,6 @@
     <!-- ================= 1. 头部介绍（头像+名字） ================= -->
     <div class="block header-block">
         <!-- 如果你有头像图片，可以替换 src="头像图片链接"，如果没有可以删除下面这行 -->
-        
         <h1>wockkk</h1>
         <p>一只在信竞的笨蛋杂鱼喵</p>
     </div>
@@ -180,8 +181,41 @@
 
         <!-- 关于我 -->
         <div class="block about-block">
-            <h2>关于我(的qq账号)</h2>
+            <h2>👋 关于我（的QQ账号）</h2>
             <p>因为一些奇怪的原因导致我QQ大号消失了... 以下是我所有常用qq账号</p>
-            <p>大号:1570609173(已封 待解封)</p>
-            <p>一号小号:3801858975(主力)</p>
-            <p>二号小号:3665485614(备用)</p>
+            <p>📌 大号：1570609173（已封 待解封）</p>
+            <p>📌 一号小号：3801858975（主力）</p>
+            <p>📌 二号小号：3665485614（备用）</p>
+        </div>
+
+        <!-- 我的技能/标签 -->
+        <div class="block skills-block">
+            <h2>🛠️ 我的技能</h2>
+            <div class="skill-tags">
+                <span>____________________</span>
+                <span>我上面写的明明是文字为什么出现了慈祥的老奶奶</span>
+            </div>
+        </div>
+
+        <!-- 我的项目/作品 -->
+        <div class="block project-block">
+            <h2>📁 我的项目</h2>
+
+        </div>
+
+        <!-- 联系方式 -->
+        <div class="block contact-block">
+            <h2>📬 联系我</h2>
+            <div class="link-list">
+                <a href="mailto:1570609173@qq.com">QQ邮箱喵~</a>
+                <a href="github.com/wockkkk">GitHub主页喵~</a>
+                <a href="https://space.bilibili.com/1801619616"> 神秘B站喵~</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[你的名字]的个人主页</title>
+    <style>
+        /* 全局设置：极简字体与柔和背景色 */
+        :root {
+            --bg-color: #f4f6f8;       /* 整个页面的背景色 */
+            --text-main: #333333;      /* 主要文字颜色 */
+            --text-muted: #666666;     /* 次要文字颜色 */
+            --card-radius: 16px;       /* 色块圆角 */
+            --gap-size: 20px;          /* 色块间距 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* 核心容器 */
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* 色块基础样式 */
+        .block {
+            background-color: #ffffff;
+            border-radius: var(--card-radius);
+            padding: 30px;
+            margin-bottom: var(--gap-size);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); /* 极浅的阴影，增加立体感 */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        /* 头部色块（偏蓝调） */
+        .header-block {
+            background-color: #eef2ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        /* 头像（可选，不需要可以删除 img 标签） */
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #c7d2fe; /* 头像占位色 */
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .header-block h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1e3a8a;
+        }
+
+        .header-block p {
+            font-size: 14px;
+            color: #4f46e5;
+        }
+
+        /* 网格布局：让下方的色块在电脑上分两列，手机上自动变成一列 */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--gap-size);
+        }
+
+        @media (max-width: 600px) {
+            .grid-layout {
+                grid-template-columns: 1fr; /* 手机端一列显示 */
+            }
+        }
+
+        /* 各具不同背景色的色块 */
+        .about-block { background-color: #f0fdf4; } /* 淡绿 */
+        .skills-block { background-color: #fef2f2; } /* 淡红 */
+        .project-block { background-color: #fefce8; } /* 淡黄 */
+        .contact-block { background-color: #f8fafc; } /* 淡灰 */
+
+        /* 标题样式 */
+        .block h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-block h2 { color: #166534; }
+        .skills-block h2 { color: #991b1b; }
+        .project-block h2 { color: #854d0e; }
+        .contact-block h2 { color: #334155; }
+
+        /* 文本内容 */
+        .block p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        /* 技能标签 */
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tags span {
+            background-color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #991b1b;
+            font-weight: 500;
+        }
+
+        /* 链接样式 */
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link-list a {
+            text-decoration: none;
+            color: #4f46e5;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .link-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ================= 1. 头部介绍（头像+名字） ================= -->
+    <div class="block header-block">
+        <!-- 如果你有头像图片，可以替换 src="头像图片链接"，如果没有可以删除下面这行 -->
+        <img class="avatar" src="https://via.placeholder.com/100" alt="头像">
+        <h1>[你的名字]</h1>
+        <p>[一句话介绍你自己，例如：热爱编程 / 正在学习前端 / 什么都懂一点的开发者]</p>
+    </div>
+
+    <!-- ================= 2. 详情色块（网格布局） ================= -->
+    <div class="grid-layout">
+
+        <!-- 关于我 -->
+        <div class="block about-block">
+            <h2>👋 关于我</h2>
+            <p>[写一段简短的自我介绍。比如你来自哪里，目前在做什么，或者你对什么领域感兴趣。]</p>
+            <p>[你还可以写下第二段，例如：喜欢折腾各种新鲜事物，目前正在学习 GitHub 和网页开发。]</p>

@@ -5,233 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>wockkk的小窝</title>
     <link href="https://fonts.googleapis.cn/css2?family=ZCOOL+KuaiLe&family=Caveat:wght@600&display=swap" rel="stylesheet">
-    <style>
-        /* 全局设置：极简字体与柔和背景色 */
-        :root {
-            --bg-color: #fffafa;       /* 极浅的草莓牛奶色背景 */
-            --text-main: #4a4a4a;      /* 柔和的深灰 */
-            --text-muted: #777777;     /* 浅灰文字 */
-            --card-radius: 16px;       /* 色块圆角 */
-            --gap-size: 20px;          /* 色块间距 */
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'ZCOOL KuaiLe', 'Caveat', 'Comic Sans MS', 'PingFang SC', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.8;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        /* 核心容器 */
-        .container {
-            width: 100%;
-            max-width: 800px;
-        }
-
-        /* ========== 顶部菜单栏 ========== */
-        .top-nav {
-            position: sticky;
-            top: 20px;
-            z-index: 100;
-            background-color: #ffffff;
-            border-radius: var(--card-radius);
-            padding: 12px 20px;
-            margin-bottom: var(--gap-size);
-            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 8px 24px;
-        }
-
-        /* Logo 样式（适配图片） */
-        .top-nav .logo {
-            background-color: #ffe4e1;
-            color: #d84b5e;
-            font-size: 15px;
-            font-weight: 500;
-            margin-right: auto;
-            display: flex;
-            align-items: center;
-            padding: 4px;
-            border-radius: 12px;
-            transition: background-color 0.2s;
-        }
-
-        .top-nav .logo:hover {
-            background-color: #ffe4e1;
-        }
-
-        .top-nav .logo img {
-            height: 28px;
-            width: auto;
-            display: block;
-            border-radius: 6px;
-        }
-
-        .top-nav a:not(.logo) {
-            text-decoration: none;
-            color: #ff6b81;
-            font-size: 15px;
-            font-weight: 500;
-            padding: 4px 8px;
-            border-radius: 12px;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .top-nav a:not(.logo):hover {
-            background-color: #ffe4e1;
-            color: #d84b5e;
-        }
-        /* ========== 菜单栏结束 ========== */
-
-        /* 色块基础样式 */
-        .block {
-            background-color: #ffffff;
-            border-radius: var(--card-radius);
-            padding: 30px;
-            margin-bottom: var(--gap-size);
-            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .block:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(255, 182, 193, 0.2);
-        }
-
-        /* 头部色块（柔雾粉） */
-        .header-block {
-            background-color: #ffe4e1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 40px 30px;
-        }
-
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: #c7d2fe;
-            margin-bottom: 20px;
-            object-fit: cover;
-        }
-
-        .header-block h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #d84b5e;
-            letter-spacing: 2px;
-        }
-
-        .header-block p {
-            font-size: 15px;
-            color: #e07a8b;
-        }
-
-        /* 网格布局 */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--gap-size);
-        }
-
-        @media (max-width: 600px) {
-            .grid-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 马卡龙配色色块 */
-        .about-block { background-color: #e0f7fa; }
-        .skills-block { background-color: #fce4ec; }
-        .project-block { background-color: #fff9c4; }
-        .contact-block { background-color: #e6e6fa; }
-
-        /* 标题样式 */
-        .block h2 {
-            font-size: 19px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .about-block h2 { color: #00838f; }
-        .skills-block h2 { color: #c2185b; }
-        .project-block h2 { color: #f57f17; }
-        .contact-block h2 { color: #6a1b9a; }
-
-        /* 文本内容 */
-        .block p {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-        }
-
-        /* 技能标签 */
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .skill-tags span {
-            background-color: #ffffff;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            color: #c2185b;
-            font-weight: 500;
-        }
-
-        /* ========== 改动：独立的 .link 类 ========== */
-        .link {
-            text-decoration: none;
-            color: #ff6b81;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .link:hover {
-            text-decoration: underline;
-            color: #d84b5e;
-        }
-        /* ========== 改动结束 ========== */
-
-        /* 链接列表容器（只负责布局） */
-        .link-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- 背景光斑 -->
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress" id="scrollProgress"></div>
 
 <div class="container">
-
     <!-- ========== 顶部菜单栏 ========== -->
-    <nav class="top-nav">
-        <a href="#home" class="logo"> <-wockkk-> </a>
+    <nav class="top-nav" id="topNav">
+        <a href="#home" class="logo"> &lt;-wockkk-&gt; </a>
         <a href="#home">首页</a>
         <a href="#about">关于我</a>
         <a href="#skills">技能</a>
@@ -242,16 +31,16 @@
 
     <!-- ================= 1. 头部介绍（头像+名字） ================= -->
     <div class="block header-block" id="home">
+        <div class="avatar"></div>
         <h1>wockkk</h1>
         <p>一只在信竞的笨蛋杂鱼喵</p>
     </div>
 
     <!-- ================= 2. 详情色块（网格布局） ================= -->
     <div class="grid-layout">
-
         <!-- 关于我 -->
-        <div class="block about-block" id="about">
-            <h2>👋 关于我（的QQ账号）</h2>
+        <div class="block about-block reveal" id="about">
+            <h2><span>👋</span> 关于我（的QQ账号）</h2>
             <p>因为一些奇怪的原因导致我QQ大号消失了... 以下是我所有常用qq账号</p>
             <p>📌 大号：1570609173（已封 待解封）</p>
             <p>📌 一号小号：3801858975（主力）</p>
@@ -259,8 +48,8 @@
         </div>
 
         <!-- 我的技能/标签 -->
-        <div class="block skills-block" id="skills">
-            <h2>🛠️ 我的技能</h2>
+        <div class="block skills-block reveal" id="skills">
+            <h2><span>🛠️</span> 我的技能</h2>
             <div class="skill-tags">
                 <span>____________________</span>
                 <span>我上面写的明明是文字为什么出现了慈祥的老奶奶</span>
@@ -268,24 +57,26 @@
         </div>
 
         <!-- 我的项目/作品 -->
-        <div class="block project-block" id="project">
-            <h2>📁 我的项目</h2>
-             <a href="bilibili.com/video/BV1GJ411x7h7" class="link">好东西</a>
+        <div class="block project-block reveal" id="project">
+            <h2><span>📁</span> 我的项目</h2>
+            <a href="https://bilibili.com/video/BV1GJ411x7h7" class="link">好东西</a>
         </div>
 
         <!-- 联系方式 -->
-        <div class="block contact-block" id="contact">
-            <h2>📬 联系我</h2>
+        <div class="block contact-block reveal" id="contact">
+            <h2><span>📬</span> 联系我</h2>
             <div class="link-list">
                 <a class="link" href="mailto:1570609173@qq.com">QQ邮箱喵~</a>
-                <a class="link" href="github.com/wockkkk">GitHub主页喵~</a>
+                <a class="link" href="https://github.com/wockkkk">GitHub主页喵~</a>
                 <a class="link" href="https://space.bilibili.com/1801619616"> 神秘B站喵~</a>
             </div>
         </div>
-
     </div>
-
 </div>
 
+<!-- 回到顶部 -->
+<button class="back-top" id="backTop" title="回到顶部">👆</button>
+
+<script src="script.js"></script>
 </body>
 </html>

@@ -206,6 +206,7 @@ body {
     padding: 44px 30px !important;
     width: 100% !important;
     max-width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 @keyframes headerGradient {

@@ -74,9 +74,37 @@
 
     function startAvatarSpin() {
         const avatar = document.querySelector('.avatar');
-        if (avatar) {
-            avatar.classList.remove('spinning');
-            void avatar.offsetWidth; // 强制重绘
-            avatar.classList.add('spinning');
+        if (!avatar) return;
+        
+        // 保留原始动画（如果有的话）
+        avatar.classList.remove('spinning');
+        void avatar.offsetWidth;
+        
+        const startTime = performance.now();
+        const duration = 2500;
+        
+        function animate(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // 平滑贝塞尔缓动 (ease-in-out)
+            const ease = t => {
+                return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+            };
+            
+            // 总旋转度数：7200 度
+            const rawRotation = 7200 * progress;
+            // 缩放：中间达到 1.2 倍
+            const scale = 1 + 0.2 * Math.sin(progress * Math.PI);
+            
+            avatar.style.transform = `rotate(${rawRotation}deg) scale(${scale})`;
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                avatar.style.transform = '';
+            }
         }
+        
+        requestAnimationFrame(animate);
     }

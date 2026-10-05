@@ -203,6 +203,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* 添加垂直居中以确保水平居中 */
     text-align: center;
     padding: 44px 30px;
     width: 100%;
@@ -541,6 +542,7 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center; /* 也试试垂直居中，确保水平居中 */
         width: 100%;
         box-sizing: border-box;
     }

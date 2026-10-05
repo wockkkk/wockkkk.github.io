@@ -45,19 +45,44 @@
     }, { threshold: 0.3 });
     sections.forEach(section => navObserver.observe(section));
 
-    // 头像点击后超级加速旋转
-    const avatar = document.querySelector('.avatar');
-    if (avatar) {
-        avatar.addEventListener('click', () => {
-            // 移除所有动画重置
+    // 图片加载后确保 DOM 就绪再添加事件监听（应对移动端）
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupAvatarClick);
+    } else {
+        setupAvatarClick();
+    }
+
+    function setupAvatarClick() {
+        const avatar = document.querySelector('.avatar');
+        console.log('调试: 头像元素', avatar);
+        if (avatar) {
+            // 添加点击和触摸事件
+            avatar.addEventListener('click', () => {
+                console.log('调试: 点击触发');
+                startAvatarSpin();
+            });
+            // 也添加 touchend（移动端更可靠）
+            avatar.addEventListener('touchend', (e) => {
+                e.preventDefault(); // 防止触发 click
+                console.log('调试: 触摸触发');
+                startAvatarSpin();
+            });
+
+            // 动画结束后移除类
+            avatar.addEventListener('animationend', () => {
+                console.log('调试: 动画结束');
+                avatar.classList.remove('spinning');
+            });
+        }
+    }
+
+    function startAvatarSpin() {
+        // 移除所有动画重置
+        const avatar = document.querySelector('.avatar');
+        if (avatar) {
             avatar.classList.remove('spinning');
             // 强制重绘后重新添加类
             void avatar.offsetWidth;
             avatar.classList.add('spinning');
-        });
-
-        // 动画结束后移除类
-        avatar.addEventListener('animationend', () => {
-            avatar.classList.remove('spinning');
-        });
+        }
     }

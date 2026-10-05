@@ -85,6 +85,62 @@
         setupAvatarClick();
     }
 
+    // 初始化浮动动画状态
+    window.avatarFloating = {
+        startTime: null,
+        direction: 1, // 1上升，-1下降
+        offset: 0,
+        active: false
+    };
+    window.avatarClick = {
+        active: false,
+        startTime: null,
+        duration: 2500,
+        animationId: null
+    };
+
+    // 浮动动画主循环
+    function floatAnimation(currentTime) {
+        if (!window.avatarFloating.active || window.avatarClick.active) {
+            window.avatarFloating.offset = 0;
+            requestAnimationFrame(floatAnimation);
+            return;
+        }
+
+        if (!window.avatarFloating.startTime) {
+            window.avatarFloating.startTime = currentTime;
+        }
+
+        const elapsed = currentTime - window.avatarFloating.startTime;
+        const cycle = Math.abs(Math.sin(elapsed / 2000)); // 振荡周期
+
+        window.debugInfo.floatOffset = cycle * 10;
+        updateDebugPanel(`float: ${window.debugInfo.floatOffset.toFixed(1)}`);
+
+        // 应用浮动
+        const wrapper = document.querySelector('.avatar-wrapper');
+        if (wrapper) {
+            wrapper.style.transform = `translateY(${window.debugInfo.floatOffset}px) scale(${window.avatarClick ? window.avatarClick.scale : 1})`;
+        }
+
+        window.avatarFloating.animationId = requestAnimationFrame(floatAnimation);
+    }
+
+    // 启动浮动动画
+    function startFloating() {
+        window.avatarFloating.active = true;
+        window.avatarFloating.startTime = null;
+        requestAnimationFrame(floatAnimation);
+    }
+
+    // 停止浮动动画
+    function stopFloating() {
+        window.avatarFloating.active = false;
+        if (window.avatarFloating.animationId) {
+            cancelAnimationFrame(window.avatarFloating.animationId);
+        }
+    }
+
     // 调试面板拖拽功能
     function setupDragPanel() {
         const panel = document.getElementById('debugPanel');
@@ -233,6 +289,9 @@
         if (avatar) {
             if (debugPanel) updateDebugPanel('✅ 头像已加载');
 
+            // 启动浮动动画
+            startFloating();
+
             // 使用 pointerup（兼容触摸和鼠标）
             avatar.addEventListener('pointerup', () => {
                 logEvent('pointerup 触发');
@@ -259,12 +318,16 @@
         const scaleEl = document.getElementById('debugScale');
         const timeEl = document.getElementById('debugTime');
         const eventLogEl = document.getElementById('debugEventLog');
+        const floatingEl = document.getElementById('debugFloating');
 
         if (statusEl) statusEl.textContent = status;
         if (progressEl) progressEl.textContent = `进度：${Math.round(window.debugInfo.randomProgress || 0)}%`;
         if (rotationEl) rotationEl.textContent = `${Math.round(window.debugInfo.rotation || 0)}°`;
         if (scaleEl) scaleEl.textContent = window.debugInfo.scale ? window.debugInfo.scale.toFixed(2) : '1.00';
         if (timeEl) timeEl.textContent = `${Math.max(0, Math.round(window.debugInfo.remainingTime || 0))}ms`;
+        if (floatingEl && window.debugInfo.floatOffset !== undefined) {
+            floatingEl.textContent = `float: ${window.debugInfo.floatOffset.toFixed(1)}px`;
+        }
 
         // 更新事件日志 - 每次只追加新事件
         if (eventLogEl && window.debugInfo.events.length > 0) {
@@ -289,11 +352,10 @@
 
         // 重置动画相关的调试信息，但保留事件日志
         window.debugInfo.isAnimating = true;
-        window.debugInfo.startTime = performance.now();
-        window.debugInfo.rotation = 0;
-        window.debugInfo.scale = 1.0;
-        window.debugInfo.remainingTime = window.debugInfo.duration;
-        window.debugInfo.randomProgress = 0;
+        window.avatarClick.active = true;
+        window.avatarClick.startTime = performance.now();
+        window.avatarClick.duration = 2500;
+        window.avatarClick.animationId = null;
 
         // 隐藏调试面板3秒
         const debugPanel = document.getElementById('debugPanel');
@@ -303,11 +365,9 @@
             }, 3000);
         }
 
-        const duration = window.debugInfo.duration;
-
         function animate(currentTime) {
-            const elapsed = currentTime - window.debugInfo.startTime;
-            const progress = Math.min(elapsed / duration, 1);
+            const elapsed = currentTime - window.avatarClick.startTime;
+            const progress = Math.min(elapsed / window.avatarClick.duration, 1);
 
             // 平滑贝塞尔缓动 (ease-in-out)
             const ease = t => {
@@ -323,8 +383,9 @@
             if (isDebugMode() && window.debugInfo) {
                 window.debugInfo.rotation = rawRotation;
                 window.debugInfo.scale = scale;
-                window.debugInfo.remainingTime = Math.max(0, duration - elapsed);
+                window.debugInfo.remainingTime = Math.max(0, window.avatarClick.duration - elapsed);
                 window.debugInfo.randomProgress = progress * 100;
+                window.avatarClick.scale = scale;
                 updateDebugPanel('🌀 动画中...');
             }
 
@@ -333,10 +394,11 @@
             avatar.style.transform = `rotate(${rawRotation}deg)`;
 
             if (progress < 1) {
-                window.debugInfo.animationId = requestAnimationFrame(animate);
+                window.avatarClick.animationId = requestAnimationFrame(animate);
             } else {
+                window.avatarClick.active = false;
+                window.avatarClick.animationId = null;
                 window.debugInfo.isAnimating = false;
-                window.debugInfo.animationId = null;
 
                 if (isDebugMode()) {
                     logEvent('✅ 旋转完成');
@@ -346,10 +408,11 @@
                 // 清除所有样式
                 wrapper.style.transform = '';
                 avatar.style.transform = '';
+                window.avatarClick.scale = 1;
             }
         }
 
-        window.debugInfo.animationId = requestAnimationFrame(animate);
+        window.avatarClick.animationId = requestAnimationFrame(animate);
     }
 
     // 窗口调整时也检查调试模式

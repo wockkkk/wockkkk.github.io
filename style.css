@@ -243,15 +243,6 @@ body {
     transition: transform 0.3s;
 }
 
-@keyframes avatarFloat {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-10px); }
-}
-
-.avatar-wrapper {
-    animation: avatarFloat 4s ease-in-out infinite;
-}
-
 .avatar {
     width: 96px;
     height: 96px;

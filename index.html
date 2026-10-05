@@ -74,9 +74,27 @@
     </div>
 </div>
 
-<!-- 调试面板（研发用） -->
-<div id="debugPanel" style="position:fixed;top:80px;right:10px;background:rgba(0,0,0,0.8);color:#fff;padding:10px;border-radius:8px;font-size:12px;z-index:9999;max-width:200px;">
-  <div id="debugStatus">准备就绪</div>
+<!-- 调试面板（有 #debug 时显示） -->
+<div id="debugPanel" style="display:none;position:fixed;top:10px;right:10px;background:rgba(0,0,0,0.9);color:#fff;padding:12px;border-radius:8px;font-size:12px;z-index:9999;width:220px;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-family:monospace;">
+  <div style="font-weight:bold;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #444;">🔧 调试面板 #debug</div>
+  
+  <div id="debugStatus" style="margin-bottom:6px;color:#FFD700;">状态：...</div>
+  <div id="debugProgress" style="margin-bottom:6px;color:#00FFFF;">进度：0%</div>
+  <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+    <span style="color:#ff6b6b;">🔄 旋转:</span>
+    <span id="debugRotation">0°</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+    <span style="color:#4ecdc4;">📏 缩放:</span>
+    <span id="debugScale">1.0</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+    <span style="color:#ffe66d;">⏱️ 剩余:</span>
+    <span id="debugTime">0ms</span>
+  </div>
+  <div id="debugEventLog" style="margin-top:8px;padding-top:8px;border-top:1px solid #444;font-size:10px;max-height:100px;overflow:hidden;">
+    <div style="color:#aaa;">📋 事件日志:</div>
+  </div>
 </div>
 
 <!-- 回到顶部 -->

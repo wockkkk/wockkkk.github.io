@@ -361,6 +361,12 @@
 
         if (isDebugMode()) logEvent('🚀 启动旋转');
 
+        // 保存并移除 transition，避免 CSS transition 干扰 JS 动画
+        const originalWrapperTransition = wrapper.style.transition;
+        const originalAvatarTransition = avatar.style.transition;
+        wrapper.style.transition = 'none';
+        avatar.style.transition = 'none';
+
         // 重置动画相关的调试信息，但保留事件日志
         window.debugInfo.isAnimating = true;
         window.avatarClick.active = true;
@@ -417,9 +423,11 @@
                     updateDebugPanel('🎬 动画结束');
                 }
 
-                // 清除所有样式
+                // 清除所有样式并恢复 transition
                 wrapper.style.transform = '';
                 avatar.style.transform = '';
+                wrapper.style.transition = originalWrapperTransition;
+                avatar.style.transition = originalAvatarTransition;
                 window.avatarClick.scale = 1;
             }
         }

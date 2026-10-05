@@ -230,7 +230,8 @@ body {
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
-    animation: avatarFloat 4s ease-in-out infinite;
+    transform-origin: center center;
+    transition: transform 0.3s;
 }
 
 @keyframes avatarFloat {
@@ -238,19 +239,37 @@ body {
     50%      { transform: translateY(-10px); }
 }
 
-.avatar {
+.avatar-wrapper {
+    animation: avatarFloat 4s ease-in-out infinite;
+}
+
+.avatar-border {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 104px;
     height: 104px;
     border-radius: 50%;
-    object-fit: cover;
-    padding: 4px;
     background: linear-gradient(135deg, #ff9aa2, #ffdac1, #b8e7e2, #c7ceea);
     background-size: 300% 300%;
     animation: avatarSpin 8s linear infinite;
+    z-index: 0;
+    overflow: hidden;
+    /* 边框不使用 transform，但继承父级缩放 */
+    pointer-events: none;
 }
 
 @keyframes avatarSpin {
     to { background-position: 300% 0; }
+}
+
+.avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+    margin-bottom: 0;
 }
 
 .header-block h1 {

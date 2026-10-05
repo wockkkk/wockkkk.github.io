@@ -261,8 +261,9 @@
     }
 
     function startAvatarSpin() {
+        const wrapper = document.querySelector('.avatar-wrapper');
         const avatar = document.querySelector('.avatar');
-        if (!avatar) return;
+        if (!wrapper || !avatar) return;
 
         if (isDebugMode()) logEvent('🚀 启动旋转');
 
@@ -307,7 +308,9 @@
                 updateDebugPanel('🌀 动画中...');
             }
 
-            avatar.style.transform = `rotate(${rawRotation}deg) scale(${scale})`;
+            // 分别应用 transform：wrapper 缩放，avatar 旋转
+            wrapper.style.transform = `scale(${scale})`;
+            avatar.style.transform = `rotate(${rawRotation}deg)`;
 
             if (progress < 1) {
                 window.debugInfo.animationId = requestAnimationFrame(animate);
@@ -321,6 +324,7 @@
                 }
 
                 // 清除所有样式
+                wrapper.style.transform = '';
                 avatar.style.transform = '';
             }
         }

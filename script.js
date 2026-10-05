@@ -254,9 +254,15 @@
 
     // 全局调试面板关闭函数
     window.closeDebugPanel = function() {
+        console.log('✅ closeDebugPanel 启动');
         const panel = document.getElementById('debugPanel');
-        if (panel) panel.style.display = 'none';
+        console.log('debugPanel:', panel);
+        if (panel) {
+            console.log('隐藏面板...');
+            panel.style.display = 'none';
+        }
         window.location.hash = ''; // 移除 #debug
+        console.log('移除 hash');
         window.location.reload();
     };
 

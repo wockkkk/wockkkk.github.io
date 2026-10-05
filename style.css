@@ -233,7 +233,7 @@ body {
     position: relative;
     width: 104px;
     height: 104px;
-    display: flex !important; /* flex 容器，使其内部 avatar 居中 */
+    display: flex !important;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
@@ -530,11 +530,12 @@ body {
         text-align: center;
     }
 
-    /* 头部色块 */
+    /* 头部色块 - 移动端用 flex 居中，更稳定 */
     .header-block {
         padding: 32px 18px;
-        display: block !important;
-        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
         width: 100% !important;
         box-sizing: border-box !important;
     }

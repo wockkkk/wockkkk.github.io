@@ -289,6 +289,9 @@
         if (avatar) {
             if (debugPanel) updateDebugPanel('✅ 头像已加载');
 
+            // 确保头像层级最高
+            avatar.classList.add('attachment');
+
             // 启动浮动动画
             startFloating();
 
@@ -374,8 +377,9 @@
                 return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
             };
 
-            // 总旋转度数：7200 度
-            const rawRotation = 7200 * progress;
+            // 使用缓动函数计算旋转（有加速减速）
+            const easedProgress = ease(progress);
+            const rawRotation = 7200 * easedProgress;
             // 缩放：中间达到 1.2 倍
             const scale = 1 + 0.2 * Math.sin(progress * Math.PI);
 

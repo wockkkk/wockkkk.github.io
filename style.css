@@ -251,6 +251,7 @@ body {
     display: block;
     z-index: 1;
     position: relative;
+    transform-origin: center center;
 }
 
 /* 使用 pseud-element 实现渐变边框 */
@@ -265,7 +266,14 @@ body {
     background: linear-gradient(135deg, #ff9aa2, #ffdac1, #b8e7e2, #c7ceea);
     background-size: 300% 300%;
     animation: avatarBorderSpin 8s linear infinite;
-    z-index: -1;
+    z-index: 0;
+    transform: translateZ(0); /* 强制 GPU 加速 */
+}
+
+/* 保证头像始终在伪元素之上 */
+.avatar.attachment {
+    position: relative;
+    z-index: 2;
 }
 
 @keyframes avatarBorderSpin {

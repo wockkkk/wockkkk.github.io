@@ -232,6 +232,7 @@ body {
 
 /* 头像（渐变光环 + 漂浮） */
 .avatar-wrapper {
+    position: relative;
     width: 104px;
     height: 104px;
     display: flex;
@@ -257,30 +258,28 @@ body {
     border-radius: 50%;
     object-fit: cover;
     display: block;
-    /* 核心渐变边框：使用 background 径向渐变 */
-    background: radial-gradient(
-        circle at center,
-        transparent 75%,      /* 内部透明（显示 img） */
-        transparent 75%,      /* 中间透明 */
-        #ff9aa2 75%,           /* 边框外缘 */
-        #ff9aa2 80%,
-        #ffdac1 80%,
-        #ffdac1 85%,
-        #b8e7e2 85%,
-        #b8e7e2 90%,
-        #c7ceea 90%,
-        #c7ceea 100%
-    );
-    background-size: 200% 200%;
-    /* 动画：渐变流动 */
-    animation: avatarBorderFlow 5s linear infinite;
-    /* 边框不平滑旋转 */
-    border: none;
+    z-index: 1;
+    position: relative;
 }
 
-@keyframes avatarBorderFlow {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 100% 100%; }
+/* 使用 pseud-element 实现渐变边框 */
+.avatar::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff9aa2, #ffdac1, #b8e7e2, #c7ceea);
+    background-size: 300% 300%;
+    animation: avatarBorderSpin 8s linear infinite;
+    z-index: -1;
+}
+
+@keyframes avatarBorderSpin {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 .header-block h1 {

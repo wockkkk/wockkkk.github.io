@@ -270,6 +270,7 @@ body {
     object-fit: cover;
     z-index: 2;
     margin-bottom: 0;
+    display: block;
 }
 
 .header-block h1 {

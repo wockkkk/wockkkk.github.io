@@ -1,0 +1,43 @@
+# npm dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+build/
+dist/
+*.min.css
+*.min.js
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files
+*.tmp
+*.temp
+.temp
+/tmp
+
+# Test files
+coverage/
+.nyc_output/
+
+# Debug files
+debug*

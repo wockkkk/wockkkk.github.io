@@ -245,17 +245,17 @@ body {
     margin-top: 10px; /* 向下偏移整个头像组件 */
 }
 
-/* 移动端优化：增加 margin-top 确保头像视觉居中 */
+/* 移动端优化：增加 margin-top 确保头像视觉居中，保持边框 4px */
 @media (max-width: 768px) {
     .avatar-wrapper {
         margin-top: 30px; /* 移动端额外向下偏移 */
-        width: 96px;
-        height: 96px;
+        width: 92px; /* 适配 84px avatar, 边框 4px */
+        height: 92px;
     }
 
     .avatar-wrapper::before {
-        width: 96px;
-        height: 96px;
+        width: 92px;
+        height: 92px;
     }
 }
 
@@ -539,7 +539,7 @@ body {
     .avatar {
         width: 84px;
         height: 84px;
-        margin-bottom: 16px;
+        margin-bottom: 0; /* 头像在 wrapper 内居中，不额外加 margin，避免 flex 居中向上偏移 */
     }
 
     .header-block p {

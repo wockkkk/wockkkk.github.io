@@ -199,9 +199,7 @@ body {
     background: linear-gradient(135deg, #ffe4e1 0%, #fff0f0 50%, #ffe9f0 100%);
     background-size: 200% 200%;
     animation: headerGradient 12s ease infinite;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    display: block !important;
     text-align: center !important;
     padding: 44px 30px !important;
     width: 100% !important;
@@ -233,7 +231,7 @@ body {
     position: relative;
     width: 104px;
     height: 104px;
-    display: flex;
+    display: inline-flex !important;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
@@ -241,8 +239,7 @@ body {
     transition: transform 0.3s;
     /* 关键：不允许 overflow hidden，否则边框可能被裁剪 */
     margin-top: 10px; /* 向下偏移整个头像组件 */
-    margin-left: auto; /* 辅助居中 */
-    margin-right: auto; /* 辅助居中 */
+    /* margin-left: auto; margin-right: auto; removed as text-align:center on parent handles centering */
 }
 
 /* 移动端优化：增加 margin-top 确保头像视觉居中，保持边框 4px */
@@ -251,6 +248,7 @@ body {
         margin-top: 30px; /* 移动端额外向下偏移 */
         width: 92px; /* 适配 84px avatar, 边框 4px */
         height: 92px;
+        display: inline-flex !important;
     }
 
     .avatar-wrapper::before {
@@ -534,10 +532,9 @@ body {
     /* 头部色块 */
     .header-block {
         padding: 32px 18px;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important; /* 关键修复：确保 flex 容器宽度为 100% */
+        display: block !important;
+        text-align: center !important;
+        width: 100% !important;
         box-sizing: border-box !important;
     }
 

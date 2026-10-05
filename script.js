@@ -45,23 +45,19 @@
     }, { threshold: 0.3 });
     sections.forEach(section => navObserver.observe(section));
 
-    // 鼠标星星拖尾（触屏设备不触发）
-    const sparkleChars = ['✨', '⭐', '💫', '🌸', '💖'];
-    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    let lastSparkle = 0;
+    // 头像点击后超级加速旋转
+    const avatar = document.querySelector('.avatar');
+    if (avatar) {
+        avatar.addEventListener('click', () => {
+            // 移除所有动画重置
+            avatar.classList.remove('spinning');
+            // 强制重绘后重新添加类
+            void avatar.offsetWidth;
+            avatar.classList.add('spinning');
+        });
 
-    if (isFinePointer) {
-        document.addEventListener('mousemove', (e) => {
-            const now = Date.now();
-            if (now - lastSparkle < 90) return;
-            lastSparkle = now;
-
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.textContent = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
-            sparkle.style.left = (e.clientX + 8) + 'px';
-            sparkle.style.top = (e.clientY - 8) + 'px';
-            document.body.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 800);
+        // 动画结束后移除类
+        avatar.addEventListener('animationend', () => {
+            avatar.classList.remove('spinning');
         });
     }

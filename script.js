@@ -78,14 +78,7 @@
     window.addEventListener('scroll', highlightSection, { passive: true });
     highlightSection(); // 初始检测
 
-    // 图片加载后确保 DOM 就绪再添加事件监听（应对移动端）
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setupAvatarClick);
-    } else {
-        setupAvatarClick();
-    }
-
-    // 初始化浮动动画状态
+    // 初始化浮动动画状态（必须放在所有引用之前！）
     window.avatarFloating = {
         startTime: null,
         direction: 1, // 1上升，-1下降
@@ -99,9 +92,16 @@
         animationId: null
     };
 
+    // 图片加载后确保 DOM 就绪再添加事件监听（应对移动端）
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupAvatarClick);
+    } else {
+        setupAvatarClick();
+    }
+
     // 浮动动画主循环
     function floatAnimation(currentTime) {
-        if (!window.avatarFloating.active || window.avatarClick.active) {
+        if (!window.avatarFloating.active || (window.avatarClick && window.avatarClick.active)) {
             window.avatarFloating.offset = 0;
             requestAnimationFrame(floatAnimation);
             return;

@@ -120,7 +120,9 @@
         // 应用浮动
         const wrapper = document.querySelector('.avatar-wrapper');
         if (wrapper) {
-            wrapper.style.transform = `translateY(${window.debugInfo.floatOffset}px) scale(${window.avatarClick ? window.avatarClick.scale : 1})`;
+            // 只有点击动画激活时才使用非1缩放
+            const scaleValue = window.avatarClick && window.avatarClick.active ? window.avatarClick.scale : 1;
+            wrapper.style.transform = `translateY(${window.debugInfo.floatOffset}px) scale(${scaleValue})`;
         }
 
         window.avatarFloating.animationId = requestAnimationFrame(floatAnimation);

@@ -254,7 +254,7 @@ body {
     display: block;
     transform: rotate(0deg); /* 初始旋转为 0，动画时 JS 控制 */
     transform-origin: center center;
-    margin-top: 2px; /* 手动偏移，让头像向下微调 */
+    margin-top: 10px; /* 向下偏移 10px */
 }
 
 /* 图片本身 */

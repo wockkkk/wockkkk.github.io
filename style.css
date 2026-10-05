@@ -204,6 +204,7 @@ body {
     align-items: center;
     text-align: center;
     padding: 44px 30px;
+    width: 100%; /* 关键修复：确保 flex 容器宽度为 100%，避免收缩到只够用 */
 }
 
 @keyframes headerGradient {
@@ -532,6 +533,7 @@ body {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
+        width: 100% !important; /* 关键修复：确保 flex 容器宽度为 100% */
     }
 
     .avatar {

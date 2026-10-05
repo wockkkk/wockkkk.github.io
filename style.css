@@ -242,7 +242,7 @@ body {
     transform-origin: center center;
     transition: transform 0.3s;
     /* 关键：不允许 overflow hidden，否则边框可能被裁剪 */
-    margin-top: 6px; /* 向下偏移整个头像组件，保持边框均匀 */
+    margin-top: 8px; /* 向下偏移整个头像组件，保持边框均匀 */
 }
 
 .avatar {

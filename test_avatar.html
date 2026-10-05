@@ -1,0 +1,176 @@
+#!/usr/bin/env python3
+# 简单调试脚本：在手机上给头像加点击事件
+# 运行后直接在手机上访问 http://127.0.0.1:8000
+
+import http.server
+import socketserver
+import os
+import sys
+
+PORT = 8000
+
+class DebugHandler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def log_message(self, format, *args):
+        # 自定义日志输出
+        print(f"[HTTP] {args[0]}")
+
+if __name__ == "__main__":
+    # 全局 HTML
+    html = """
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>头像点击测试</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                background: #f0f0f0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .avatar {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+                padding: 4px;
+                background: linear-gradient(135deg, #ff6b81, #ff9eb5);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                transition: transform 0.3s;
+            }
+            .avatar:hover {
+                transform: scale(1.05);
+            }
+            .avatar.spinning {
+                animation: superSpin 3.5s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+            }
+            @keyframes superSpin {
+                0% {
+                    transform: rotate(0deg) scale3d(1, 1, 1);
+                }
+                10% {
+                    transform: rotate(1080deg) scale3d(1.1, 1.1, 1);
+                }
+                35% {
+                    transform: rotate(3600deg) scale3d(1.3, 1.3, 1);
+                }
+                70% {
+                    transform: rotate(6840deg) scale3d(1.1, 1.1, 1);
+                }
+                100% {
+                    transform: rotate(7200deg) scale3d(1, 1, 1);
+                }
+            }
+            .status {
+                margin-top: 20px;
+                font-size: 14px;
+                color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <img id="avatar" class="avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+CiAgPHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHJ4PSI1MCIgcng9IjUwIiBmaWxsPSIjZmZmIi8+CiAgPGNpcmRsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDAiIGZpbGw9IiNmZjYiLz4KPC9zdmc+" alt="测试头像">
+            <div class="status" id="status">等待点击...</div>
+        </div>
+
+        <script>
+            console.log('脚本加载完成');
+            
+            function setupAvatarClick() {
+                const avatar = document.getElementById('avatar');
+                const status = document.getElementById('status');
+                
+                console.log('找到头像元素:', avatar);
+                
+                if (avatar) {
+                    // 添加点击事件
+                    avatar.addEventListener('click', function(e) {
+                        console.log('点击事件触发');
+                        startSpin();
+                    });
+                    
+                    // 添加触摸事件
+                    avatar.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        console.log('触摸事件触发');
+                        startSpin();
+                    });
+                    
+                    // 监听动画结束
+                    avatar.addEventListener('animationend', function() {
+                        console.log('动画结束');
+                        status.textContent = '动画结束';
+                        avatar.classList.remove('spinning');
+                    });
+                    
+                    // 自动开始一次测试
+                    setTimeout(() => {
+                        console.log('自动测试开始');
+                        startSpin();
+                    }, 1000);
+                } else {
+                    console.error('未找到头像元素');
+                    status.textContent = '错误：未找到头像';
+                }
+            }
+            
+            function startSpin() {
+                const avatar = document.getElementById('avatar');
+                if (!avatar) return;
+                
+                console.log('开始旋转');
+                avatar.classList.remove('spinning');
+                void avatar.offsetWidth; // 强制重绘
+                avatar.classList.add('spinning');
+                
+                const status = document.getElementById('status');
+                status.textContent = '旋转中...';
+            }
+            
+            // 页面加载完成后执行
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', setupAvatarClick);
+            } else {
+                setupAvatarClick();
+            }
+        </script>
+    </body>
+    </html>
+    """
+
+    # 修改 BaseHTTPRequestHandler 的 do_GET 方法
+    original_do_get = http.server.SimpleHTTPRequestHandler.do_GET
+    
+    def custom_do_get(self):
+        # 如果是根路径，返回测试页面
+        if self.path == '/' or self.path == '/index.html':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html; charset=utf-8')
+            self.send_header('Content-Length', len(html.encode('utf-8')))
+            self.end_headers()
+            self.wfile.write(html.encode('utf-8'))
+        else:
+            # 其他请求，使用默认的
+            original_do_get(self)
+    
+    http.server.SimpleHTTPRequestHandler.do_GET = custom_do_get
+    
+    print("=" * 60)
+    print("🔥 头像点击测试服务器已启动")
+    print("=" * 60)
+    print("请打开浏览器访问：http://127.0.0.1:8000")
+    print("查看 Termux 控制台输出的调试日志")
+    print("按 Ctrl+C 停止服务器")
+    print("=" * 60)
+    
+    with socketserver.TCPServer(("", PORT), DebugHandler) as httpd:
+        httpd.serve_forever()

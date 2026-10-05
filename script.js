@@ -54,35 +54,29 @@
 
     function setupAvatarClick() {
         const avatar = document.querySelector('.avatar');
-        console.log('调试: 头像元素', avatar);
         if (avatar) {
-            // 添加点击和触摸事件
-            avatar.addEventListener('click', () => {
-                console.log('调试: 点击触发');
+            // 使用 pointerup（兼容触摸和鼠标）
+            avatar.addEventListener('pointerup', () => {
                 startAvatarSpin();
             });
-            // 也添加 touchend（移动端更可靠）
-            avatar.addEventListener('touchend', (e) => {
-                e.preventDefault(); // 防止触发 click
-                console.log('调试: 触摸触发');
+            
+            // 也保留 click（备用）
+            avatar.addEventListener('click', () => {
                 startAvatarSpin();
             });
 
             // 动画结束后移除类
             avatar.addEventListener('animationend', () => {
-                console.log('调试: 动画结束');
                 avatar.classList.remove('spinning');
             });
         }
     }
 
     function startAvatarSpin() {
-        // 移除所有动画重置
         const avatar = document.querySelector('.avatar');
         if (avatar) {
             avatar.classList.remove('spinning');
-            // 强制重绘后重新添加类
-            void avatar.offsetWidth;
+            void avatar.offsetWidth; // 强制重绘
             avatar.classList.add('spinning');
         }
     }

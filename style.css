@@ -199,12 +199,13 @@ body {
     background: linear-gradient(135deg, #ffe4e1 0%, #fff0f0 50%, #ffe9f0 100%);
     background-size: 200% 200%;
     animation: headerGradient 12s ease infinite;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 44px 30px;
-    width: 100%; /* 关键修复：确保 flex 容器宽度为 100%，避免收缩到只够用 */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 44px 30px !important;
+    width: 100% !important;
+    max-width: 100% !important;
 }
 
 @keyframes headerGradient {

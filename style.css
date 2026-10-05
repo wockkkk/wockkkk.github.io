@@ -154,6 +154,8 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
+    scroll-margin-top: 100px; /* 给 sticky nav 留出空间 */
+    scroll-padding-top: 20px;
 }
 
 /* 滚动入场动画 */
@@ -224,6 +226,7 @@ body {
 
 /* 头像（渐变光环 + 漂浮） */
 .avatar-wrapper {
+    position: relative;
     width: 104px;
     height: 104px;
     display: flex;

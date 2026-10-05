@@ -117,10 +117,16 @@
         window.debugInfo.floatOffset = cycle * 10;
         updateDebugPanel(`float: ${window.debugInfo.floatOffset.toFixed(1)}`);
 
+        // ** 运行时检查：即使帧已执行，也检测旋转状态 **
+        if (window.avatarClick && window.avatarClick.active) {
+            window.debugInfo.floatOffset = 0;
+            requestAnimationFrame(floatAnimation);
+            return;
+        }
+
         // 应用浮动
         const wrapper = document.querySelector('.avatar-wrapper');
         if (wrapper) {
-            // 只有点击动画激活时才使用非1缩放
             const scaleValue = window.avatarClick && window.avatarClick.active ? window.avatarClick.scale : 1;
             wrapper.style.transform = `translateY(${window.debugInfo.floatOffset}px) scale(${scaleValue})`;
         }
@@ -355,11 +361,21 @@
     }
 
     function startAvatarSpin() {
+        // 防止动画运行时重复调用
+        if (window.avatarClick && window.avatarClick.active) {
+            if (isDebugMode()) logEvent('⚠️ 动画已在运行，忽略本次点击');
+            return;
+        }
+
         const wrapper = document.querySelector('.avatar-wrapper');
         const avatar = document.querySelector('.avatar');
         if (!wrapper || !avatar) return;
 
         if (isDebugMode()) logEvent('🚀 启动旋转');
+
+        // ** 关键：先标记为旋转中，使浮动动画的运行时检查检测到 **
+        window.avatarClick.active = true;
+        window.debugInfo.isAnimating = true;
 
         // 停止浮动动画，确保不冲突
         window.avatarFloating.active = false;
@@ -378,8 +394,6 @@
         avatar.style.transform = 'rotate(0deg)';
 
         // 重置动画相关的调试信息，但保留事件日志
-        window.debugInfo.isAnimating = true;
-        window.avatarClick.active = true;
         window.avatarClick.startTime = performance.now();
         window.avatarClick.duration = 2500;
         window.avatarClick.animationId = null;

@@ -43,20 +43,40 @@
     }, { threshold: 0.15 });
     reveals.forEach(el => revealObserver.observe(el));
 
-    // 导航栏当前板块高亮
+    // 导航栏当前板块高亮（基于视口中心检测）
     const navLinks = document.querySelectorAll('.top-nav a:not(.logo)');
     const sections = document.querySelectorAll('#home, #about, #skills, #project, #contact');
 
-    const navObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                navLinks.forEach(link => {
-                    link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
-                });
+    function highlightSection() {
+        let activeIndex = null;
+        let maxOverlap = 0;
+
+        sections.forEach((section, index) => {
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            // 计算区块中部在视口中的位置
+            const midPoint = rect.top + rect.height / 2;
+            const distanceFromTop = Math.abs(midPoint - windowHeight / 2);
+
+            // 同时考虑点击次数和滚动稳定性
+            const isFullyVisible = rect.top >= 0 && rect.bottom <= windowHeight;
+
+            if (rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2) {
+                if (isFullyVisible || distanceFromTop < maxOverlap) {
+                    maxOverlap = isFullyVisible ? 100 : distanceFromTop;
+                    activeIndex = index;
+                }
             }
         });
-    }, { threshold: 0.3 });
-    sections.forEach(section => navObserver.observe(section));
+
+        navLinks.forEach((link, index) => {
+            link.classList.toggle('active', index === activeIndex);
+        });
+    }
+
+    window.addEventListener('scroll', highlightSection, { passive: true });
+    highlightSection(); // 初始检测
 
     // 图片加载后确保 DOM 就绪再添加事件监听（应对移动端）
     if (document.readyState === 'loading') {

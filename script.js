@@ -423,9 +423,9 @@
                     updateDebugPanel('🎬 动画结束');
                 }
 
-                // 清除所有样式并恢复 transition
-                wrapper.style.transform = '';
-                avatar.style.transform = '';
+                // 保持在最终状态，避免 transition 过渡回初始位置
+                wrapper.style.transform = `scale(1)`;
+                avatar.style.transform = `rotate(7200deg)`;
                 wrapper.style.transition = originalWrapperTransition;
                 avatar.style.transition = originalAvatarTransition;
                 window.avatarClick.scale = 1;

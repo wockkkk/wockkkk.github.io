@@ -208,23 +208,17 @@ body {
     50%      { background-position: 100% 50%; }
 }
 
-/* 头像点击后流畅旋转特效 - 去掉模糊，更连贯 */
+/* 头像点击后流畅旋转 - 连续无分段 */
 .avatar.spinning {
-    animation: smoothSpin 3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation: spin 2.5s cubic-bezier(0.42, 0, 0.58, 1) forwards;
 }
 
-@keyframes smoothSpin {
+@keyframes spin {
     0% {
-        transform: rotate(0deg) scale3d(1, 1, 1);
-    }
-    15% {
-        transform: rotate(1080deg) scale3d(1.1, 1.1, 1);
-    }
-    85% {
-        transform: rotate(6120deg) scale3d(1.1, 1.1, 1);
+        transform: rotate(0deg);
     }
     100% {
-        transform: rotate(7200deg) scale3d(1, 1, 1);
+        transform: rotate(7200deg);
     }
 }
 

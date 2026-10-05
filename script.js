@@ -361,11 +361,21 @@
 
         if (isDebugMode()) logEvent('🚀 启动旋转');
 
+        // 停止浮动动画，确保不冲突
+        window.avatarFloating.active = false;
+        if (window.avatarFloating.animationId) {
+            cancelAnimationFrame(window.avatarFloating.animationId);
+        }
+
         // 保存并移除 transition，避免 CSS transition 干扰 JS 动画
         const originalWrapperTransition = wrapper.style.transition;
         const originalAvatarTransition = avatar.style.transition;
         wrapper.style.transition = 'none';
         avatar.style.transition = 'none';
+
+        // 立即重置 transform 为初始状态，消除之前的浮动影响
+        wrapper.style.transform = 'scale(1)';
+        avatar.style.transform = 'rotate(0deg)';
 
         // 重置动画相关的调试信息，但保留事件日志
         window.debugInfo.isAnimating = true;

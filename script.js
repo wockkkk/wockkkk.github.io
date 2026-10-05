@@ -54,31 +54,34 @@
 
     function setupAvatarClick() {
         const avatar = document.querySelector('.avatar');
+        const debugPanel = document.getElementById('debugStatus');
+        
         if (avatar) {
+            if (debugPanel) debugPanel.textContent = '✅ 头像已加载';
+            
             // 使用 pointerup（兼容触摸和鼠标）
             avatar.addEventListener('pointerup', () => {
+                if (debugPanel) debugPanel.textContent = '👆 pointerup 触发';
                 startAvatarSpin();
             });
             
             // 也保留 click（备用）
             avatar.addEventListener('click', () => {
+                if (debugPanel) debugPanel.textContent = '👆 click 触发';
                 startAvatarSpin();
             });
-
-            // 动画结束后移除类
-            avatar.addEventListener('animationend', () => {
-                avatar.classList.remove('spinning');
-            });
+        } else {
+            if (debugPanel) debugPanel.textContent = '❌ 未找到头像';
         }
     }
 
     function startAvatarSpin() {
         const avatar = document.querySelector('.avatar');
+        const debugPanel = updateDebugPanel;
+        
         if (!avatar) return;
         
-        // 保留原始动画（如果有的话）
-        avatar.classList.remove('spinning');
-        void avatar.offsetWidth;
+        if (debugPanel) debugPanel.textContent = '🌀 开始旋转';
         
         const startTime = performance.now();
         const duration = 2500;
@@ -102,9 +105,12 @@
             if (progress < 1) {
                 requestAnimationFrame(animate);
             } else {
-                avatar.style.transform = '';
+                if (debugPanel) debugPanel.textContent = '🎬 旋转完成';
+                // 保留原始动画状态
             }
         }
         
         requestAnimationFrame(animate);
     }
+
+    function updateDebugPanel() {}

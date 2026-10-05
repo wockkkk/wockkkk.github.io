@@ -1,3 +1,16 @@
+    // 初始化全局调试对象
+    window.debugInfo = {
+        isAnimating: false,
+        startTime: null,
+        duration: 2500,
+        animationId: null,
+        events: [],
+        rotation: 0,
+        scale: 1.0,
+        remainingTime: 0,
+        randomProgress: 0
+    };
+
     // 滚动进度条
     const progressBar = document.getElementById('scrollProgress');
     const backTop = document.getElementById('backTop');
@@ -168,18 +181,6 @@
         window.location.hash = ''; // 移除 #debug
         window.location.reload();
     };
-    
-    // 初始化全局调试对象
-    window.debugInfo = {
-        isAnimating: false,
-        startTime: null,
-        duration: 2500,
-        animationId: null,
-        events: [],
-        rotation: 0,
-        scale: 1.0,
-        remainingTime: 0
-    };
 
     function setupAvatarClick() {
         const avatar = document.querySelector('.avatar');
@@ -245,13 +246,11 @@
         if (scaleEl) scaleEl.textContent = window.debugInfo.scale ? window.debugInfo.scale.toFixed(2) : '1.00';
         if (timeEl) timeEl.textContent = `${Math.max(0, Math.round(window.debugInfo.remainingTime || 0))}ms`;
 
-        // 更新事件日志
+        // 更新事件日志 - 每次只追加新事件
         if (eventLogEl && window.debugInfo.events.length > 0) {
-            eventLogEl.innerHTML += `<div>• ${window.debugInfo.events.slice(-1)[0]}</div>`;
-            // 只显示最近5条
-            if (window.debugInfo.events.length > 5) {
-                window.debugInfo.events.shift();
-            }
+            const lastEvent = window.debugInfo.events[window.debugInfo.events.length - 1];
+            eventLogEl.innerHTML = `<div style="color:#aaa;">📋 事件日志:</div>` +
+                window.debugInfo.events.map(e => `<div>• ${e}</div>`).join('');
         }
     }
 
@@ -267,13 +266,12 @@
 
         if (isDebugMode()) logEvent('🚀 启动旋转');
 
-        // 重置调试信息
+        // 重置动画相关的调试信息，但保留事件日志
         window.debugInfo.isAnimating = true;
         window.debugInfo.startTime = performance.now();
-        window.debugInfo.events = [];
         window.debugInfo.rotation = 0;
         window.debugInfo.scale = 1.0;
-        window.debugInfo.remainingTime = 0;
+        window.debugInfo.remainingTime = window.debugInfo.duration;
         window.debugInfo.randomProgress = 0;
 
         // 隐藏调试面板3秒
@@ -337,5 +335,3 @@
             debugPanel.style.display = isDebugMode() ? 'block' : 'none';
         }
     });
-
-    function updateDebugPanel() {}

@@ -223,25 +223,34 @@ body {
 }
 
 /* 头像（渐变光环 + 漂浮） */
-.avatar {
+.avatar-wrapper {
     width: 104px;
     height: 104px;
-    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
-    object-fit: cover;
-    padding: 4px;
-    background: linear-gradient(135deg, #ff9aa2, #ffdac1, #b8e7e2, #c7ceea);
-    background-size: 300% 300%;
-    animation: avatarSpin 8s linear infinite, avatarFloat 4s ease-in-out infinite;
-}
-
-@keyframes avatarSpin {
-    to { background-position: 300% 0; }
+    animation: avatarFloat 4s ease-in-out infinite;
 }
 
 @keyframes avatarFloat {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-10px); }
+}
+
+.avatar {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 4px;
+    background: linear-gradient(135deg, #ff9aa2, #ffdac1, #b8e7e2, #c7ceea);
+    background-size: 300% 300%;
+    animation: avatarSpin 8s linear infinite;
+}
+
+@keyframes avatarSpin {
+    to { background-position: 300% 0; }
 }
 
 .header-block h1 {

@@ -195,18 +195,23 @@ body {
     transform: translateY(-6px);
 }
 
-/* 头部色块（柔雾粉） */
+/* 头部色块（柔雾粉） - 独立样式，不再继承 .block */
 .header-block {
     background: linear-gradient(135deg, #ffe4e1 0%, #fff0f0 50%, #ffe9f0 100%);
     background-size: 200% 200%;
     animation: headerGradient 12s ease infinite;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    padding: 44px 30px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 44px 30px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: var(--card-radius);
+    margin-bottom: var(--gap-size);
+    box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
+    position: relative;
+    overflow: visible; /* 移除隐藏，让头像不被裁剪 */
 }
 
 @keyframes headerGradient {
@@ -249,7 +254,7 @@ body {
         margin-top: 30px; /* 移动端额外向下偏移 */
         width: 92px; /* 适配 84px avatar, 边框 4px */
         height: 92px;
-        display: inline-block !important;
+        display: flex !important; /* 继续用 flex，破坏 inline-block */
     }
 
     .avatar-wrapper::before {
@@ -530,14 +535,14 @@ body {
         text-align: center;
     }
 
-    /* 头部色块 - 移动端用 flex 居中，更稳定 */
+    /* 移动端 .header-block 单独样式 */
     .header-block {
         padding: 32px 18px;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .avatar {

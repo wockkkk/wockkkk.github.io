@@ -26,10 +26,11 @@ body {
     color: var(--text-main);
     line-height: 1.8;
     padding: 40px 20px;
+    display: flex;
+    justify-content: center;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-    /* Removed flex to ease centering */
 }
 
 /* ========== 动态背景：漂浮的马卡龙光斑 ========== */
@@ -199,7 +200,9 @@ body {
     background: linear-gradient(135deg, #ffe4e1 0%, #fff0f0 50%, #ffe9f0 100%);
     background-size: 200% 200%;
     animation: headerGradient 12s ease infinite;
-    display: block !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     text-align: center !important;
     padding: 44px 30px !important;
     width: 100% !important;

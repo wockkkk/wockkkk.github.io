@@ -52,11 +52,123 @@
         setupAvatarClick();
     }
 
+    // 调试面板拖拽功能
+    function setupDragPanel() {
+        const panel = document.getElementById('debugPanel');
+        const handle = document.getElementById('debugPanelDrag');
+        
+        if (!panel || !handle) return;
+        
+        let isDragging = false;
+        let startX, startY, initialLeft, initialTop;
+        
+        // 鼠标/触摸指针 Down 事件
+        function onDown(e) {
+            if (!isDebugMode()) return;
+            isDragging = true;
+            
+            // 获取原始位置
+            const style = window.getComputedStyle(panel);
+            const matrix = new WebKitCSSMatrix(style.transform);
+            initialLeft = matrix.m41 || parseFloat(panel.style.left) || 0;
+            initialTop = matrix.m42 || parseFloat(panel.style.top) || 0;
+            
+            // 处理触摸/鼠标事件
+            if (e.type === 'touchstart') {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            } else {
+                startX = e.clientX;
+                startY = e.clientY;
+            }
+            
+            panel.style.zIndex = 10000; // 拖动时提升层级
+            handle.style.cursor = 'grabbing';
+            
+            // 阻止默认触摸行为
+            if (e.type === 'touchstart') {
+                e.preventDefault();
+            }
+        }
+        
+        // 指针 Move 事件
+        function onMove(e) {
+            if (!isDragging) return;
+            
+            e.preventDefault();
+            
+            // 获取移动距离
+            let clientX, clientY;
+            if (e.type === 'touchmove') {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            
+            const dx = clientX - startX;
+            const dy = clientY - startY;
+            
+            // 计算新位置
+            let newLeft = initialLeft + dx;
+            let newTop = initialTop + dy;
+            
+            // 限制在屏幕内
+            const maxX = window.innerWidth - panel.offsetWidth;
+            const maxY = window.innerHeight - panel.offsetHeight;
+            
+            newLeft = Math.max(0, Math.min(newLeft, maxX));
+            newTop = Math.max(0, Math.min(newTop, maxY));
+            
+            // 应用位置
+            panel.style.left = newLeft + 'px';
+            panel.style.top = newTop + 'px';
+            panel.style.right = 'auto';
+            panel.style.transform = 'none';
+        }
+        
+        // 指针 Up 事件
+        function onUp() {
+            if (!isDragging) return;
+            isDragging = false;
+            panel.style.zIndex = 9999;
+            handle.style.cursor = 'move';
+            
+            // 保存位置到 localStorage
+            if (isDebugMode()) {
+                localStorage.setItem('debugPanelPosition', JSON.stringify({
+                    left: panel.style.left,
+                    top: panel.style.top
+                }));
+            }
+        }
+        
+        // 绑定事件
+        handle.addEventListener('mousedown', onDown);
+        handle.addEventListener('touchstart', onDown, { passive: false });
+        
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('touchmove', onMove, { passive: false });
+        
+        document.addEventListener('mouseup', onUp);
+        document.addEventListener('touchend', onUp);
+        document.addEventListener('mouseleave', onUp);
+    }
+    
     // 检查是否启用调试模式 (#debug)
     function isDebugMode() {
         return window.location.hash === '#debug';
     }
 
+    // 全局调试面板关闭函数
+    window.closeDebugPanel = function() {
+        const panel = document.getElementById('debugPanel');
+        if (panel) panel.style.display = 'none';
+        window.location.hash = ''; // 移除 #debug
+        window.location.reload();
+    };
+    
     // 初始化全局调试对象
     window.debugInfo = {
         isAnimating: false,
@@ -72,16 +184,31 @@
     function setupAvatarClick() {
         const avatar = document.querySelector('.avatar');
         
+        // 设置调试面板拖拽功能
+        setupDragPanel();
+        
         // 显示/隐藏调试面板
         const debugPanel = document.getElementById('debugPanel');
         if (debugPanel) {
             debugPanel.style.display = isDebugMode() ? 'block' : 'none';
+            
+            // 恢复之前保存的位置
+            if (isDebugMode()) {
+                const savedPos = localStorage.getItem('debugPanelPosition');
+                if (savedPos) {
+                    const { left, top } = JSON.parse(savedPos);
+                    debugPanel.style.left = left + 'px';
+                    debugPanel.style.top = top + 'px';
+                    debugPanel.style.right = 'auto';
+                    debugPanel.style.transform = 'none';
+                }
+            }
+            
             updateDebugPanel(`页面已加载 - ${isDebugMode() ? '🔴' : '🟢'} ${isDebugMode() ? '调试模式开启' : '调试模式关闭'}`);
         }
         
         // 设置事件日志
         logEvent('页面加载完成');
-
         if (avatar) {
             if (debugPanel) updateDebugPanel('✅ 头像已加载');
 

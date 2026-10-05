@@ -75,8 +75,12 @@
 </div>
 
 <!-- 调试面板（有 #debug 时显示） -->
-<div id="debugPanel" style="display:none;position:fixed;top:10px;right:10px;background:rgba(0,0,0,0.9);color:#fff;padding:12px;border-radius:8px;font-size:12px;z-index:9999;width:220px;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-family:monospace;">
-  <div style="font-weight:bold;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #444;">🔧 调试面板 #debug</div>
+<div id="debugPanel" style="display:none;position:fixed;top:10px;right:10px;background:rgba(0,0,0,0.9);color:#fff;padding:12px;border-radius:8px;font-size:12px;z-index:9999;width:220px;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-family:monospace;cursor:move;">
+  <!-- 拖拽手柄 -->
+  <div id="debugPanelDrag" style="cursor:move;border-bottom:1px solid #444;margin-bottom:8px;padding-bottom:4px;font-weight:bold;user-select:none;">
+    <span style="margin-right:8px;">🔧</span>调试面板
+    <span style="float:right;font-size:10px;color:#888;cursor:pointer;" onclick="closeDebugPanel()" title="关闭">✖</span>
+  </div>
   
   <div id="debugStatus" style="margin-bottom:6px;color:#FFD700;">状态：...</div>
   <div id="debugProgress" style="margin-bottom:6px;color:#00FFFF;">进度：0%</div>

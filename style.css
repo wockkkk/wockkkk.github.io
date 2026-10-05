@@ -240,6 +240,8 @@ body {
     transition: transform 0.3s;
     /* 关键：不允许 overflow hidden，否则边框可能被裁剪 */
     margin-top: 10px; /* 向下偏移整个头像组件 */
+    margin-left: auto; /* 辅助居中 */
+    margin-right: auto; /* 辅助居中 */
 }
 
 /* 移动端优化：增加 margin-top 确保头像视觉居中，保持边框 4px */

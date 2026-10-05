@@ -200,19 +200,19 @@ body {
     background: linear-gradient(135deg, #ffe4e1 0%, #fff0f0 50%, #ffe9f0 100%);
     background-size: 200% 200%;
     animation: headerGradient 12s ease infinite;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* 添加垂直居中以确保水平居中 */
-    text-align: center;
-    padding: 44px 30px;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: var(--card-radius);
-    margin-bottom: var(--gap-size);
-    box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
-    position: relative;
-    overflow: visible; /* 移除隐藏，让头像不被裁剪 */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important; /* 添加垂直居中以确保水平居中 */
+    text-align: center !important;
+    padding: 44px 30px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border-radius: var(--card-radius) !important;
+    margin-bottom: var(--gap-size) !important;
+    box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1) !important;
+    position: relative !important;
+    overflow: visible !important; /* 移除隐藏，让头像不被裁剪 */
 }
 
 @keyframes headerGradient {
@@ -240,8 +240,8 @@ body {
     width: 104px;
     height: 104px;
     display: flex !important;
-    justify-content: center;
-    align-items: center;
+    justify-content: center !important;
+    align-items: center !important;
     margin-bottom: 20px;
     transform-origin: center center;
     transition: transform 0.3s;
@@ -252,15 +252,17 @@ body {
 /* 移动端优化：增加 margin-top 确保头像视觉居中，保持边框 4px */
 @media (max-width: 768px) {
     .avatar-wrapper {
-        margin-top: 30px; /* 移动端额外向下偏移 */
-        width: 92px; /* 适配 84px avatar, 边框 4px */
-        height: 92px;
-        display: flex !important; /* 继续用 flex，破坏 inline-block */
+        margin-top: 30px !important; /* 移动端额外向下偏移 */
+        width: 92px !important; /* 适配 84px avatar, 边框 4px */
+        height: 92px !important;
+        display: flex !important; /* 继续用 flex */
+        justify-content: center !important;
+        align-items: center !important;
     }
 
     .avatar-wrapper::before {
-        width: 92px;
-        height: 92px;
+        width: 92px !important;
+        height: 92px !important;
     }
 }
 
@@ -536,15 +538,15 @@ body {
         text-align: center;
     }
 
-    /* 移动端 .header-block 单独样式 */
+    /* 移动端 .header-block 单独样式 - 使用 !important */
     .header-block {
-        padding: 32px 18px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center; /* 也试试垂直居中，确保水平居中 */
-        width: 100%;
-        box-sizing: border-box;
+        padding: 32px 18px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 
     .avatar {

@@ -241,38 +241,50 @@ body {
     margin-bottom: 20px;
     transform-origin: center center;
     transition: transform 0.3s;
+    /* 关键：不允许 overflow hidden，否则边框可能被裁剪 */
 }
 
 .avatar {
     width: 96px;
     height: 96px;
     border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    z-index: 1;
+    overflow: hidden; /* 确保 img 被裁剪为圆形 */
     position: relative;
+    z-index: 1;
+    display: block;
+    transform: rotate(0deg); /* 初始旋转为 0，动画时 JS 控制 */
     transform-origin: center center;
 }
 
-/* 使用 pseud-element 实现渐变边框 */
-.avatar::after {
+/* 图片本身 */
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+/* 使用伪元素实现渐变边框 - 在父容器上，不被旋转 */
+.avatar-wrapper::before {
     content: '';
     position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
+    top: 0;
+    left: 0;
+    width: 104px;
+    height: 104px;
     border-radius: 50%;
     background: linear-gradient(135deg, #ff9aa2, #ffdac1, #b8e7e2, #c7ceea);
     background-size: 300% 300%;
     animation: avatarBorderSpin 8s linear infinite;
     z-index: 0;
-    transform: translateZ(0); /* 强制 GPU 加速 */
+    /* 关键：确保边框和头像精确对齐 */
+    pointer-events: none;
+    /* 继承父级缩放，但不继承旋转 */
 }
 
 /* 保证头像始终在伪元素之上 */
 .avatar.attachment {
-    position: relative;
     z-index: 2;
 }
 

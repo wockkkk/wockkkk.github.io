@@ -240,8 +240,6 @@ body {
     margin-bottom: 20px;
     transform-origin: center center;
     transition: transform 0.3s;
-    position: relative;
-    z-index: 1;
 }
 
 @keyframes avatarFloat {
@@ -253,33 +251,36 @@ body {
     animation: avatarFloat 4s ease-in-out infinite;
 }
 
-.avatar-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 104px;
-    height: 104px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ff9aa2, #ffdac1, #b8e7e2, #c7ceea);
-    background-size: 300% 300%;
-    animation: avatarSpin 8s linear infinite;
-    z-index: 0;
-    /* 边框不旋转，只旋转背景 */
-}
-
-@keyframes avatarSpin {
-    to { background-position: 300% 0; }
-}
-
 .avatar {
     width: 96px;
     height: 96px;
     border-radius: 50%;
     object-fit: cover;
-    z-index: 2;
-    position: relative;
     display: block;
+    /* 核心渐变边框：使用 background 径向渐变 */
+    background: radial-gradient(
+        circle at center,
+        transparent 75%,      /* 内部透明（显示 img） */
+        transparent 75%,      /* 中间透明 */
+        #ff9aa2 75%,           /* 边框外缘 */
+        #ff9aa2 80%,
+        #ffdac1 80%,
+        #ffdac1 85%,
+        #b8e7e2 85%,
+        #b8e7e2 90%,
+        #c7ceea 90%,
+        #c7ceea 100%
+    );
+    background-size: 200% 200%;
+    /* 动画：渐变流动 */
+    animation: avatarBorderFlow 5s linear infinite;
+    /* 边框不平滑旋转 */
+    border: none;
+}
+
+@keyframes avatarBorderFlow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
 }
 
 .header-block h1 {

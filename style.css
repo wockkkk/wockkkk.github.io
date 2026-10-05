@@ -197,6 +197,11 @@ body {
 /* 头部色块（柔雾粉） */
 .header-block {
     background: linear-gradient(135deg, #ffe4e1 0%, #fff0f0 50%, #ffe9f0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
     background-size: 200% 200%;
     animation: headerGradient 12s ease infinite;
     display: flex;

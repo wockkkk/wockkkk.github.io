@@ -453,6 +453,9 @@
                 wrapper.style.transition = originalWrapperTransition;
                 avatar.style.transition = originalAvatarTransition;
                 window.avatarClick.scale = 1;
+
+                // 重新启动浮动动画，保持头像的漂浮效果
+                startFloating();
             }
         }
 
